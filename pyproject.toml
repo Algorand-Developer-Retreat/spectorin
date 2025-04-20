@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "spectorin"
+version = "0.1.0"
+description = "AI‑powered formal verification, static analysis & testing framework"
+authors = ["Celestino <celestine.kariuki@strathmore.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
