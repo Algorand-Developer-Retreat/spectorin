@@ -1,12 +1,12 @@
 from core.analyzers import AnalyzerManager
-from core.verifiers import VerifierManager
+from core.verifiers import manager
 from core.fuzzers import FuzzerManager
 from core.ai_agents import AIAgent
 
 class Engine:
     def __init__(self):
         self.analyzer = AnalyzerManager()
-        self.verifier = VerifierManager()
+        self.verifier = manager()
         self.fuzzer   = FuzzerManager()
         self.ai_agent = AIAgent()
 
