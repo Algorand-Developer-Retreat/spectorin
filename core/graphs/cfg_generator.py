@@ -1,5 +1,6 @@
 import networkx as nx
 import json
+from core.analysis.taint_tracker import mark_taint_paths
 
 def build_cfg_from_ast(ast):
     G = nx.DiGraph()
@@ -18,4 +19,12 @@ def build_cfg_from_ast(ast):
     return G
 
 def export_cfg_json(G):
-    return json.dumps(nx.readwrite.json_graph.node_link_data(G))
+    taint_paths = mark_taint_paths(G)
+    data = nx.readwrite.json_graph.node_link_data(G)
+
+    for node in data["nodes"]:
+        node_id = node["id"]
+        node["taint"] = G.nodes[node_id].get("taint")
+
+    data["taint_paths"] = taint_paths
+    return json.dumps(data)
