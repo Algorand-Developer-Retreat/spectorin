@@ -13,6 +13,7 @@ AI-powered formal verification and static analysis tool for smart contracts.
 - Actionable recommendations for improving security
 - Formal verification using Z3 theorem prover
 - Dynamic testing/fuzzing capabilities
+- LLM Analyzer & Feedback Giver(Using OLLAMA!)
 - Web interface and CLI
 
 ## Installation
