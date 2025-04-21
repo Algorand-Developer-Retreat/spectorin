@@ -1,5 +1,8 @@
 from core.analyzers.solidity.solidity_constraint_adapter import SolidityToZ3Adapter
 from core.pyteal_parser import parse_pyteal_contract
+# core/z3/smart_contract_to_z3_adapter.py
+from core.z3.smart_contract_adapter import SmartContractToZ3Adapter
+
 
 
 class SmartContractToZ3Adapter:
