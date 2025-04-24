@@ -70,11 +70,6 @@ python cli_demo.py sample_contracts/vulnerable.move --language move
 python cli_demo.py sample_contracts/vulnerable.rs --language rust
 ```
 
-See screenshotsof terminal interface after commands are ran:
-
-![Display Terminal Image Two](images/terminalUITwo.png)
-
-
 ### Security Score
 
 The security score is calculated based on multiple factors:
