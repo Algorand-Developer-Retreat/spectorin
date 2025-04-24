@@ -70,10 +70,7 @@ python cli_demo.py sample_contracts/vulnerable.move --language move
 python cli_demo.py sample_contracts/vulnerable.rs --language rust
 ```
 
-See screenshots of terminal interface after commands are ran:
-
-![Display Terminal Image One](images/terminalUIOne.png)
-
+See screenshotsof terminal interface after commands are ran:
 
 ![Display Terminal Image Two](images/terminalUITwo.png)
 
