@@ -1,0 +1,6 @@
+.env
+.venv
+poetry.lock
+n__pycache__
+node_modules/
+

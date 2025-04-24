@@ -1,38 +1,44 @@
 # core/plugin_manager.py
 
 import pluggy
-from typing import Dict, Any, Optional
-from core.hookspecs import SpectorinSpec
+from typing import Dict, Any, List
+from core.analyzers.base_analyzer import BaseAnalyzer
+from .analyzers.pyteal_analyzer import PyTealAnalyzer
+from .analyzers.move_analyzer import MoveAnalyzer
+from .analyzers.rust_analyzer import RustAnalyzer
+from .analyzers.solidity_analyzer import SolidityAnalyzer
 
 class PluginManager:
+    """Manages analyzer plugins for different languages"""
+    
     def __init__(self):
         self.pm = pluggy.PluginManager("spectorin")
-        self.pm.add_hookspecs(SpectorinSpec)
+        self.pm.add_hookspecs(BaseAnalyzer)
+        self.analyzers = {}
         
-        # Load plugins for different languages
-        self._load_plugins()
+        # Register built-in analyzers
+        analyzers = [
+            PyTealAnalyzer(),
+            MoveAnalyzer(),
+            RustAnalyzer(),
+            SolidityAnalyzer()
+        ]
         
-        # Cache for analyzers
-        self._analyzers: Dict[str, Any] = {}
+        for analyzer in analyzers:
+            self.register_analyzer(analyzer)
         
-    def _load_plugins(self):
-        """Load all available plugins"""
-        # Register built-in plugins
-        from plugins.solidity.analyzer import SolidityAnalyzer
-        from plugins.pyteal.analyzer import PyTealAnalyzer
-        from plugins.move.analyzer import MoveAnalyzer
-        from plugins.rust.analyzer import RustAnalyzer
+    def register_analyzer(self, analyzer: BaseAnalyzer):
+        """Register a language-specific analyzer"""
+        self.pm.register(analyzer)
+        self.analyzers[analyzer.language] = analyzer
         
-        self.pm.register(SolidityAnalyzer())
-        self.pm.register(PyTealAnalyzer())
-        self.pm.register(MoveAnalyzer())
-        self.pm.register(RustAnalyzer())
+    def get_analyzer(self, language: str) -> BaseAnalyzer:
+        """Get analyzer for specified language"""
+        if language not in self.analyzers:
+            raise ValueError(f"No analyzer registered for language: {language}")
+        return self.analyzers[language]
         
-    def get_analyzer(self, language: str) -> Optional[Any]:
-        """Get analyzer for specific language"""
-        if language not in self._analyzers:
-            # Get the appropriate analyzer from plugins
-            analyzers = self.pm.hook.get_analyzer(language=language)
-            self._analyzers[language] = analyzers[0] if analyzers else None
-            
-        return self._analyzers[language]
+    def analyze_code(self, code: str, language: str) -> Dict[str, Any]:
+        """Analyze code using appropriate language analyzer"""
+        analyzer = self.get_analyzer(language)
+        return analyzer.analyze(code)
